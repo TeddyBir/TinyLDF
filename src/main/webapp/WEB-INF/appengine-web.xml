@@ -6,10 +6,12 @@
     <runtime>java17</runtime>
     <app-engine-apis>true</app-engine-apis>
     <static-files>
-        <include path="/**.html" >
-        </include>
-        <include path="/**.js" >
-        </include>
+        <include path="/**.html" />
+        <include path="/**.js" />
+        <include path="/**.css" />
+        <include path="/**.ico" />
+        <include path="/**.png" />
+
 
     </static-files>
     <system-properties>
