@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" prefix="hydra: http://www.w3.org/ns/hydra/core# void: http://rdfs.org/ns/void#">
+<head>
+  <meta charset="utf-8">
+  <title>Wikidata | </title>
+  <link rel="shortcut icon" href="assets/favicon.ico">
+  <link rel="stylesheet" href="./css/style.css" />
+  <!-- link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:700italic,400,700|Droid+Sans+Mono" type="text/css" / -->
+  <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+</head>
+<body>
+  <header>
+    <h1><a href="/">Wikidata</a></h1>
+    <figure class="logo">
+      <a href="http://linkeddatafragments.org/"><img src="assets/logo.svg" alt="Linked Data Fragments" /></a>
+    </figure>
+  </header>
+  <main>
+<div resource="https://query.wikidata.org/bigdata/ldf" typeof="void:datasource hydra:Collection">
+<h2><a href="https://query.wikidata.org/bigdata/ldf">Wikidata</a></h2>
+
+<form action="?" method="GET" property="hydra:search" resource="#triplePattern">
+  <fieldset resource="#triplePattern">
+    <legend>Query Wikidata by triple pattern</legend>
+    <ul>
+      <li property="hydra:mapping" resource="#subject">
+        <label for="subject>"
+               about="#subject" property="hydra:variable" lang="">subject</label>
+       <input class="uri" id="subject" name="subject"
+              about="#subject" property="hydra:property" resource="rdf:subject" value="" />
+      </li>
+      <li property="hydra:mapping" resource="#predicate">
+        <label for="predicate>"
+               about="#predicate" property="hydra:variable" lang="">predicate</label>
+       <input class="uri" id="predicate" name="predicate"
+              about="#predicate" property="hydra:property" resource="rdf:predicate" value="" />
+      </li>
+      <li property="hydra:mapping" resource="#object">
+        <label for="object>"
+               about="#object" property="hydra:variable" lang="">object</label>
+       <input class="uri" id="object" name="object"
+              about="#object" property="hydra:property" resource="rdf:object" value="" />
+      </li>
+    </ul>
+  </fieldset>
+  <p>
+    <input type="submit" value="Find matching triples" />
+  </p>
+</form>
+</div>
+
+<h3>Matches in Wikidata for <em class="pattern"></em></h3>
+
+<div class="counts">
+  Showing triples 1 to 101 of
+  ±
+  <span property="void:triples hydra:totalItems" datatype="xsd:integer" content="16,364,318,851">16,364,318,851</span>
+  with <span property="hydra:itemsPerPage" datatype="xsd:integer" content="100">100</span> triples per page.
+ <ul class="links">
+   <li><a href="https://query.wikidata.org/bigdata/ldf?page=2" rel="next" property="hydra:nextPage">next</a></li>
+ </ul>
+</div>
+
+
+</body>
+</html>
