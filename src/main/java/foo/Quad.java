@@ -1,4 +1,4 @@
-package main.java;
+package foo;
 
 public class Quad {
     private String subject;

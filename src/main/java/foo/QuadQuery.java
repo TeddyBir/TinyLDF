@@ -1,4 +1,4 @@
-package main.java;
+package foo;
 
 import java.io.IOException;
 import java.util.List;
@@ -31,16 +31,16 @@ public class QuadQuery extends HttpServlet {
 
         // Appliquer les filtres si les paramètres sont fournis
         if (subject != null) {
-            query.setFilter(new FilterPredicate("subject", FilterOperator.EQUAL, subject));
+            query.setFilter(new Query.FilterPredicate("subject", Query.FilterOperator.EQUAL, subject));
         }
         if (predicate != null) {
-            query.setFilter(new FilterPredicate("predicate", FilterOperator.EQUAL, predicate));
+            query.setFilter(new Query.FilterPredicate("predicate", Query.FilterOperator.EQUAL, predicate));
         }
         if (object != null) {
-            query.setFilter(new FilterPredicate("object", FilterOperator.EQUAL, object));
+            query.setFilter(new Query.FilterPredicate("object", Query.FilterOperator.EQUAL, object));
         }
         if (graph != null) {
-            query.setFilter(new FilterPredicate("graph", FilterOperator.EQUAL, graph));
+            query.setFilter(new Query.FilterPredicate("graph", Query.FilterOperator.EQUAL, graph));
         }
 
         PreparedQuery pq = datastore.prepare(query);
