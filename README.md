@@ -42,10 +42,8 @@ Ce projet vise à développer une application web permettant d'interroger et d'a
     *   Possibilité de choisir le format de sortie (JSON, CSV, TSV, etc.).
     *   Historique des requêtes.
 *   **Backend avancé:**
-    *   Validation des données lors de l'ajout de quads (par exemple, vérifier que les URI respectent un certain format).
-    *   Support de requêtes SPARQL complexes.
+    *   Validation des données lors de l'ajout de quads.
     *   Gestion d'un véritable QUAD Set.
-    *   Optimisation des performances des requêtes.
 *   **Documentation:**
     *   Documentation plus détaillée du code, notamment du backend.
     *   Instructions d'installation et de déploiement plus complètes.
