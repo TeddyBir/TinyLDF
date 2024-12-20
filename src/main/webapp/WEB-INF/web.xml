@@ -5,22 +5,22 @@
          version="3.1">
 
 
-<welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-</welcome-file-list>
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
 
-<!-- Wrap the backend with Endpoints Frameworks v2. -->
-<servlet>
-    <servlet-name>EndpointsServlet</servlet-name>
-    <servlet-class>com.google.api.server.spi.EndpointsServlet</servlet-class>
-    <init-param>
-        <param-name>services</param-name>
-        <param-value>com.example.skeleton.MyApi</param-value>
-    </init-param>
-</servlet>
-<!-- Route API method requests to the backend. -->
-<servlet-mapping>
-    <servlet-name>EndpointsServlet</servlet-name>
-    <url-pattern>/_ah/api/*</url-pattern>
-</servlet-mapping>
+    <!-- Wrap the backend with Endpoints Frameworks v2. -->
+    <servlet>
+        <servlet-name>EndpointsServlet</servlet-name>
+        <servlet-class>com.google.api.server.spi.EndpointsServlet</servlet-class>
+        <init-param>
+            <param-name>services</param-name>
+            <param-value>com.example.skeleton.MyApi</param-value>
+        </init-param>
+    </servlet>
+    <!-- Route API method requests to the backend. -->
+    <servlet-mapping>
+        <servlet-name>EndpointsServlet</servlet-name>
+        <url-pattern>/_ah/api/*</url-pattern>
+    </servlet-mapping>
 </web-app>
