@@ -11,6 +11,7 @@
         <include path="/**.css" />
         <include path="/**.ico" />
         <include path="/**.png" />
+        <include path="/**.svg" />
 
 
     </static-files>

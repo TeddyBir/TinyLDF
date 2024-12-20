@@ -7,8 +7,10 @@
   <link rel="stylesheet" href="./css/style.css" />
   <!-- link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:700italic,400,700|Droid+Sans+Mono" type="text/css" / -->
   <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+  <meta name="google-signin-client_id" content="     102077543806-hmf1pl4q83s3rlqr4r4pm6jf3cbt2jaj.apps.googleusercontent.com ">
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
+
 <body>
   <header>
     <h1><a href="/">Wikidata</a></h1>
@@ -18,38 +20,10 @@
   </header>
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
   <script src="https://apis.google.com/js/api:client.js"></script>
-  <script>
-  var googleUser = {};
-  var startApp = function() {
-    gapi.load('auth2', function(){
-      // Retrieve the singleton for the GoogleAuth library and set up the client.
-      auth2 = gapi.auth2.init({
-        client_id: 'YOUR_CLIENT_ID.apps.googleusercontent.com',
-        cookiepolicy: 'single_host_origin',
-        // Request scopes in addition to 'profile' and 'email'
-        //scope: 'additional_scope'
-      });
-      attachSignin(document.getElementById('customBtn'));
-    });
-  };
-
-  function attachSignin(element) {
-    console.log(element.id);
-    auth2.attachClickHandler(element, {},
-        function(googleUser) {
-          document.getElementById('name').innerText = "Signed in: " +
-              googleUser.getBasicProfile().getName();
-        }, function(error) {
-          alert(JSON.stringify(error, undefined, 2));
-        });
-  }
-  </script>
-  </head>
-  <body>
   <!-- In the callback, you would hide the gSignInWrapper element on a
   successful sign in -->
   <div id="gSignInWrapper">
-    <span class="label">Sign in with:</span>
+    <span class="label"></span>
     <div id="customBtn" class="customGPlusSignIn">
       <span class="icon"></span>
       <span class="buttonText">Google</span>
@@ -57,18 +31,10 @@
   </div>
   <div id="name"></div>
   <script>startApp();</script>
-</body>
 
-    <div class="g-signin2" data-onsuccess="onSignIn"></div>
-    <a href="#" onclick="signOut();">Sign out</a>
-    <script>
-      function signOut() {
-        var auth2 = gapi.auth2.getAuthInstance();
-        auth2.signOut().then(function () {
-          console.log('User signed out.');
-        });
-      }
-    </script>
+  <div class="g-signin2" data-onsuccess="onSignIn"></div>
+  <a href="#" onclick="signOut();">Sign out</a>
+
 
     <div resource="https://query.wikidata.org/bigdata/ldf" typeof="void:datasource hydra:Collection">
 <h2><a href="https://query.wikidata.org/bigdata/ldf">Wikidata</a></h2>
