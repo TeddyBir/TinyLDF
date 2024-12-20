@@ -1,12 +1,16 @@
 package foo;
 
 import com.google.appengine.api.datastore.*;
+import javax.servlet.http.*;
+import javax.servlet.annotation.*;
+import java.io.IOException;
 
-public class DatastoreTest {
-    public static void main(String[] args) {
-        // Configurer l'utilisation de l'émulateur
-        System.setProperty("datastore.emulator.host", "localhost:8081");
-
+@WebServlet("/datastoreTest")
+public class DatastoreTestServlet extends HttpServlet {
+    
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        
         // Créer une instance de DatastoreService
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
@@ -21,16 +25,15 @@ public class DatastoreTest {
 
         // Enregistrer l'entité dans Datastore
         datastore.put(quadEntity);
-        System.out.println("Entity has been inserted into Datastore");
+        response.getWriter().println("Entity has been inserted into Datastore");
 
         // Récupérer l'entité de Datastore
         Key quadKey = quadEntity.getKey();
         try {
             Entity retrievedEntity = datastore.get(quadKey);
-            System.out.println("Retrieved entity: " + retrievedEntity.getProperty("subject"));
+            response.getWriter().println("Retrieved entity: " + retrievedEntity.getProperty("subject"));
         } catch (EntityNotFoundException e) {
-            System.err.println("Entity not found: " + e.getMessage());
+            response.getWriter().println("Entity not found: " + e.getMessage());
         }
     }
 }
-
