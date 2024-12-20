@@ -1,102 +1,223 @@
 <!DOCTYPE html>
-<html lang="en" prefix="hydra: http://www.w3.org/ns/hydra/core# void: http://rdfs.org/ns/void#">
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Wikidata2 | </title>
-  <link rel="shortcut icon" href="assets/favicon.ico">
-  <link rel="stylesheet" href="./css/style.css" />
-  <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
-  <meta name="google-signin-client_id" content="102077543806-hmf1pl4q83s3rlqr4r4pm6jf3cbt2jaj.apps.googleusercontent.com">
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="./component/login.js"></script>
+    <meta charset="UTF-8">
+    <title>Wikidata2</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src="https://unpkg.com/mithril/mithril.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
-
 <body>
-  <header>
-    <h1><a href="/">Wikidata</a></h1>
-    <figure class="logo">
-      <a href="http://linkeddatafragments.org/"><img src="./images/logo.svg" alt="Linked Data Fragments" /></a>
-    </figure>
-  </header>
 
-  <!-- Google Sign-In Component -->
-  <div id="gSignInWrapper">
-    <span class="label"></span>
-    <div id="customBtn" class="customGPlusSignIn">
-      <span class="icon"></span>
-      <span class="buttonText">Google</span>
-    </div>
-  </div>
-  <div id="name"></div>
-  <script>startApp();</script>
+<script>
+// Application state
+var WikidataApp = {
+    name: 'Guest',
+    subject: '',
+    predicate: '',
+    object: '',
+    graph: '',
+    addSubject: '',
+    addPredicate: '',
+    addObject: '',
+    addGraph: '',
+    results: '',
 
-  <!-- Sign In and Sign Out -->
-  <div class="g-signin2" data-onsuccess="onSignIn"></div>
-  <a href="#" onclick="signOut();">Sign out</a>
+    // Method for querying the API
+    queryWikidata: function() {
+        const queryParams = new URLSearchParams({
+            subject: WikidataApp.subject,
+            predicate: WikidataApp.predicate,
+            object: WikidataApp.object,
+            graph: WikidataApp.graph
+        });
 
-  <!-- Form for Querying Triples -->
-  <div resource="https://query.wikidata.org/bigdata/ldf" typeof="void:datasource hydra:Collection">
-    <h2><a href="https://query.wikidata.org/bigdata/ldf">Wikidata</a></h2>
+        fetch('/quads?' + queryParams.toString())
+            .then(response => response.json())
+            .then(data => {
+                if (data.length > 0) {
+                    let html = "<ul>";
+                    data.forEach(quad => {
+                        html += `<li><strong>Subject:</strong> ${quad.subject} <strong>Predicate:</strong> ${quad.predicate} <strong>Object:</strong> ${quad.object} <strong>Graph:</strong> ${quad.graph}</li>`;
+                    });
+                    html += "</ul>";
+                    WikidataApp.results = html;
+                } else {
+                    WikidataApp.results = "No matching triples found.";
+                }
+                m.redraw();
+            })
+            .catch(error => {
+                console.error('Error querying the API:', error);
+            });
+    },
 
-    <form id="queryForm">
-      <fieldset>
-        <legend>Query Wikidata by triple pattern</legend>
-        <ul>
-          <li>
-            <label for="subject">subject</label>
-            <input type="text" id="subject" name="subject" placeholder="subject" />
-          </li>
-          <li>
-            <label for="predicate">predicate</label>
-            <input type="text" id="predicate" name="predicate" placeholder="predicate" />
-          </li>
-          <li>
-            <label for="object">object</label>
-            <input type="text" id="object" name="object" placeholder="object" />
-          </li>
-          <li>
-            <label for="graph">graph</label>
-            <input type="text" id="graph" name="graph" placeholder="graph" />
-          </li>
-        </ul>
-      </fieldset>
-      <button type="submit" class="button is-link">Find matching triples</button>
-    </form>
-
-    <h3>Results:</h3>
-    <pre id="results"></pre> <!-- For displaying query results -->
-  </div>
-
-  <script>
-    // Handle the form submission to query the backend API
-    document.getElementById('queryForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-
-      // Get the form values
-      const subject = document.getElementById('subject').value;
-      const predicate = document.getElementById('predicate').value;
-      const object = document.getElementById('object').value;
-      const graph = document.getElementById('graph').value; // Get graph value
-
-      // Build the query parameters for the request
-      const queryParams = new URLSearchParams({
-        subject: subject,
-        predicate: predicate,
-        object: object,
-        graph: graph // Add graph to query parameters
-      });
-
-      // Send the GET request to the API
-      fetch('/quads?' + queryParams.toString())
+    // Method for adding a Quad
+    addQuad: function() {
+        fetch('/quads', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                subject: WikidataApp.addSubject,
+                predicate: WikidataApp.addPredicate,
+                object: WikidataApp.addObject,
+                graph: WikidataApp.addGraph
+            })
+        })
         .then(response => response.json())
         .then(data => {
-          // Display the response in the 'results' div
-          document.getElementById('results').textContent = JSON.stringify(data, null, 2);
+            WikidataApp.results = data.status || "Quad added successfully!";
+            m.redraw();
         })
         .catch(error => {
-          console.error('Error querying the API:', error);
+            console.error('Error adding quad:', error);
+        });
+    }
+};
+
+// Google Sign-In response handler
+function handleCredentialResponse(response) {
+    console.log("Google callback received: " + response.credential);
+    const responsePayload = jwt_decode(response.credential);
+
+    // Update the name with the user's name from the token
+    WikidataApp.name = responsePayload.name;
+    console.log("ID: " + responsePayload.sub);
+    console.log('Full Name: ' + responsePayload.name);
+    console.log("Email: " + responsePayload.email);
+
+    // Update the name display on the page
+    document.getElementById('username').innerText = 'Welcome, ' + responsePayload.name;
+    m.redraw();
+}
+
+// Initialize the Google API client (no sign-out required now)
+function initializeGoogleAPI() {
+    gapi.load('auth2', function() {
+        gapi.auth2.init({
+            client_id: 'YOUR_GOOGLE_CLIENT_ID' // Replace with your actual client ID
         });
     });
-  </script>
+}
+
+// Initialize the Google API when the page is loaded
+window.onload = function() {
+    initializeGoogleAPI();
+};
+
+// Query Form Component
+var QueryForm = {
+    view: function() {
+        return m('div', [
+            m('h2', 'Query Wikidata'),
+            m('form', { id: 'queryForm', onsubmit: function(e) { e.preventDefault(); WikidataApp.queryWikidata(); } }, [
+                m('fieldset', [
+                    m('legend', 'Query Wikidata by triple pattern'),
+                    m('ul', [
+                        m('li', [
+                            m('label', { for: 'subject' }, 'subject'),
+                            m('input', { type: 'text', id: 'subject', name: 'subject', placeholder: 'subject', oninput: function(e) { WikidataApp.subject = e.target.value; } })
+                        ]),
+                        m('li', [
+                            m('label', { for: 'predicate' }, 'predicate'),
+                            m('input', { type: 'text', id: 'predicate', name: 'predicate', placeholder: 'predicate', oninput: function(e) { WikidataApp.predicate = e.target.value; } })
+                        ]),
+                        m('li', [
+                            m('label', { for: 'object' }, 'object'),
+                            m('input', { type: 'text', id: 'object', name: 'object', placeholder: 'object', oninput: function(e) { WikidataApp.object = e.target.value; } })
+                        ]),
+                        m('li', [
+                            m('label', { for: 'graph' }, 'graph'),
+                            m('input', { type: 'text', id: 'graph', name: 'graph', placeholder: 'graph', oninput: function(e) { WikidataApp.graph = e.target.value; } })
+                        ])
+                    ])
+                ]),
+                m('button', { type: 'submit', class: 'button is-link' }, 'Find matching triples')
+            ]),
+            m('h3', 'Matches in Wikidata for:'),
+            m('pre', WikidataApp.results)
+        ]);
+    }
+};
+
+// Add Quad Form Component
+var AddQuadForm = {
+    view: function() {
+        return m('div', [
+            m('h3', 'Add a new Quad:'),
+            m('form', { id: 'addQuadForm', onsubmit: function(e) { e.preventDefault(); WikidataApp.addQuad(); } }, [
+                m('label', { for: 'addSubject' }, 'Subject'),
+                m('input', { 
+                    type: 'text', 
+                    id: 'addSubject', 
+                    name: 'subject', 
+                    placeholder: 'subject', 
+                    oninput: function(e) { WikidataApp.addSubject = e.target.value; } 
+                }),
+                m('br'),
+                m('label', { for: 'addPredicate' }, 'Predicate'),
+                m('input', { 
+                    type: 'text', 
+                    id: 'addPredicate', 
+                    name: 'predicate', 
+                    placeholder: 'predicate', 
+                    oninput: function(e) { WikidataApp.addPredicate = e.target.value; } 
+                }),
+                m('br'),
+                m('label', { for: 'addObject' }, 'Object'),
+                m('input', { 
+                    type: 'text', 
+                    id: 'addObject', 
+                    name: 'object', 
+                    placeholder: 'object', 
+                    oninput: function(e) { WikidataApp.addObject = e.target.value; } 
+                }),
+                m('br'),
+                m('label', { for: 'addGraph' }, 'Graph'),
+                m('input', { 
+                    type: 'text', 
+                    id: 'addGraph', 
+                    name: 'graph', 
+                    placeholder: 'graph', 
+                    oninput: function(e) { WikidataApp.addGraph = e.target.value; } 
+                }),
+                m('br'),
+                m('button', { type: 'submit', class: 'button is-link' }, 'Add Quad')
+            ]),
+            m('p', WikidataApp.results)
+        ]);
+    }
+};
+
+var App = {
+    view: function() {
+        return m('div', [
+            m('header', [
+                m('h1', 'Wikidata2'),
+                m('div', { id: 'username', class: 'title' }, 'Welcome, ' + WikidataApp.name),
+            ]),
+            m(QueryForm),
+            m(AddQuadForm), // Ensure AddQuadForm is included here
+        ]);
+    }
+};
+
+m.mount(document.body, App);
+</script>
+
+<div id="g_id_onload"
+     data-client_id="102077543806-hmf1pl4q83s3rlqr4r4pm6jf3cbt2jaj.apps.googleusercontent.com"
+     data-callback="handleCredentialResponse">
+</div>
+
+<div class="g_id_signin" data-type="standard"></div>
+
 </body>
 </html>
