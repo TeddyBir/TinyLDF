@@ -236,7 +236,7 @@ span.label {
   font-weight: normal;
 }
 span.icon {
-  background: url('/identity/sign-in/g-normal.png') transparent 5px 50% no-repeat;
+  background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png') transparent 5px 50% no-repeat;
   display: inline-block;
   vertical-align: middle;
   width: 42px;

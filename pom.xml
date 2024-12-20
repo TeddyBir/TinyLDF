@@ -42,7 +42,7 @@
 
     <checkstyle.skip>true</checkstyle.skip>
     <!-- A modifier avec votre propre project id -->
-    <endpoints.project.id>sobike44</endpoints.project.id>
+    <endpoints.project.id>tinyldf-445223</endpoints.project.id>
   </properties>
 
   <dependencies>
@@ -138,7 +138,7 @@
         <version>2.0.1</version>
         <configuration>
           <!-- plugin configuration -->
-          <hostname>${endpoints.project.id}.appspot.com</hostname>
+          <hostname>tinyldf-445223.appspot.com</hostname>
         </configuration>
       </plugin>
       <!-- [END endpoints_plugin] -->
