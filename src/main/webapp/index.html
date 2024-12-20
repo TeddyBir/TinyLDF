@@ -42,7 +42,7 @@
 
 <form action="?" method="GET" property="hydra:search" resource="#triplePattern">
   <fieldset resource="#triplePattern">
-    <legend>Query Wikidata by triple pattern</legend>
+    <legend>Query for QUAD pattern</legend>
     <ul>
       <li property="hydra:mapping" resource="#subject">
         <label for="subject>"
@@ -62,10 +62,17 @@
        <input class="uri" id="object" name="object"
               about="#object" property="hydra:property" resource="rdf:object" value="" />
       </li>
+      <li property="hydra:mapping" resource="#graph">
+        <label for="graph>"
+               about="#graph" property="hydra:variable" lang="">graph</label>
+        <input class="uri" id="graph" name="graph"
+               about="#graph" property="hydra:property" resource="rdf:graph" value="" />
+      </li>
     </ul>
   </fieldset>
   <p>
     <input type="submit" value="Find matching triples" />
+    <button type="button" onclick="ajouterQuad()">Add Quad</button>
   </p>
 </form>
 </div>
