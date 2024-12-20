@@ -1,5 +1,3 @@
-/*! @license ©2013 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
-
 html, input, th, td {
   font-family: "Open Sans", Verdana, Arial, sans-serif;
   font-size: 11pt;
@@ -11,12 +9,13 @@ html {
 
 body {
   max-width: 800px;
-  margin: 0 auto;
-  line-height: 1.3;
-  color: #333333;
+  margin: 0 auto !important;
+  line-height: 1.3 !important;
+  color: #333333 !important;
   background-color: white;
-  padding: 10px 40px;
+  padding: 10px 40px !important;
   box-shadow: 2px 2px 15px 0px rgba(50, 50, 50, 0.75);
+
 }
 
 h1, h2, h3, legend {
@@ -95,11 +94,11 @@ label:after {
   content: ":";
 }
 
-input {
+button {
   outline: none;
   font-size: .95em;
 }
-fieldset input {
+fieldset button {
   width: 500px;
   color: #be1622;
   background-color: transparent;
@@ -107,7 +106,7 @@ fieldset input {
   border-bottom: 1px solid #bbbbbb;
   cursor: pointer;
 }
-input[type=submit] {
+button[type=submit] {
   font-weight: bold;
   color: #be1622;
   background-color: #f6f6f6;
@@ -116,10 +115,10 @@ input[type=submit] {
   border: 1px solid #999999;
   cursor: pointer;
 }
-input[type=submit]:hover {
+button[type=submit]:hover {
   border-color: #666666;
 }
-input[type=submit]:active {
+button[type=submit]:active {
   padding: 6px 7px 4px 9px;
 }
 .uri {
