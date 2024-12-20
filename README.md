@@ -13,8 +13,7 @@ Ce projet vise à développer une application web permettant d'interroger et d'a
 
 ## Fonctionnalités implémentées
 
-*   **Authentification:**
-    *   Intégration de l'authentification Google Sign-In pour identifier les utilisateurs.
+
 *   **Interface utilisateur:**
     *   Création d'une interface utilisateur web avec [Mithril.js](https://mithril.js.org/) pour une expérience utilisateur réactive.
     *   Utilisation de la librairie CSS [Bulma](https://bulma.io/) pour un style visuel cohérent et agréable.
@@ -32,7 +31,7 @@ Ce projet vise à développer une application web permettant d'interroger et d'a
 ## Fonctionnalités non implémentées
 
 *   **Authentification avancée:**
-    *   Gestion Authentification.
+    *   Gestion Authentification non complète.
     *   Fonctionnalité de déconnexion.
 *   **Interface utilisateur avancée:**
     *   Édition et suppression de quads.
